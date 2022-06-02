@@ -4,7 +4,7 @@ const mongoose = require('mongoose'); // Object Data Modeling (ODM) library for 
 const bodyParser = require('body-parser')
 const conf = require('./config') // import conf js to access datas inside of config.js
 const apiroute = require('./routes/movie')
-
+Port = process.env.PORT || 5000
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -23,7 +23,7 @@ mongoose.connect(conf.DB, function (err, success) { //connect mongodb using mong
 app.use('/', apiroute) // is use to execute any specific query at intilization process
 
 
-app.listen(conf.PORTNUMBER || 4000, function (err) {  //Listen connect host or port , This method is identical to Node’s http.Server.listen()
+app.listen(Port, function (err) {  //Listen connect host or port , This method is identical to Node’s http.Server.listen()
     if (err) return res.json({ status: false, result: "error in list port" })  // if connect failed it return this respose
     else console.log('http://localhost:' + conf.PORTNUMBER)
 })
