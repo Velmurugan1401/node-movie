@@ -9,11 +9,14 @@ const jwt = require('jsonwebtoken');
 const Table = require("./module/table")
 const table = new Table()
 app.use(bodyParser.urlencoded({ extended: false }))
+require("dotenv").config()
 Port = process.env.PORT || 5000
+const mongodb_url = process.env.MONGODB_URL
+console.log(mongodb_url)
 app.use(bodyParser.json())
 app.use(cookieParser())
 var USERS ={"ADMIN":"ADMIN123"}
-mongoose.connect(conf.DB, {
+mongoose.connect(mongodb_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true},function (err, success) { //connect mongodb using mongoose(ODM) ,it connect the db if connection true or false send response
     if (err) {
