@@ -2,22 +2,22 @@ const express = require('express') // import express framework
 const app = express()
 const mongoose = require('mongoose'); // Object Data Modeling (ODM) library for MongoDB is offers a variety of hooks, model validation
 const bodyParser = require('body-parser')
-const conf = require('./config') // import conf js to access datas inside of config.js
 const apiroute = require('./routes/movie')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken');
-const Table = require("./module/table")
-const table = new Table()
+require("dotenv").config()
+
 app.use(bodyParser.urlencoded({ extended: false }))
-Port = process.env.PORT || 5000
 app.use(bodyParser.json())
 app.use(cookieParser())
-var USERS ={"ADMIN":"ADMIN123"}
-mongoose.connect(conf.DB,{
+
+const Port = process.env.PORT || 5000
+const mongodb_url = process.env.MONGODB_URL
+const USERS ={"ADMIN":"ADMIN123"}
+
+mongoose.connect(mongodb_url, {
     useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true}, function (err, success) { //connect mongodb using mongoose(ODM) ,it connect the db if connection true or false send response
+    useUnifiedTopology: true},function (err, success) { //connect mongodb using mongoose(ODM) ,it connect the db if connection true or false send response
     if (err) {
         console.error(err)
     } else {
@@ -25,7 +25,7 @@ mongoose.connect(conf.DB,{
     }
 })
 
-// app.use('/', apiroute) // is use to execute any specific query at intilization process
+app.use('/', apiroute) // is use to execute any specific query at intilization process
 
 app.post('/login', (req, res) => {
     const username = req.body.username; // getting username from the client parsed data
@@ -47,12 +47,7 @@ app.post('/logout', (req, res) => {
     res.send({status:true,message:"Logout successfully"})
 })
 
-app.post('/movie/list', (req, res) => {
-    Table.find({}, function (err, users) {
-        if (err) return res.status(404).json({ "status": false, 'result': err })
-        else res.json({ status: true, result: users })
-    });
-})
+
 
 app.listen(Port, function (err) {  //Listen connect host or port , This method is identical to Node’s http.Server.listen()
     if (err) return res.json({ status: false, result: "error in list port" })  // if connect failed it return this respose
