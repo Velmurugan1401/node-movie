@@ -4,8 +4,7 @@ const movie = router
 const Movie = require('../module/movie')
 const jwt = require('jsonwebtoken');
 const movies = new Movie()
-const Table = require("../module/table")
-// const table = new Table()
+
 
 var Sessioncheck =async function (req, res, next) {
     var sessionObj = req.cookies['SESSION_ID']  //get data from sessionobj it present or not
@@ -31,11 +30,8 @@ var Sessioncheck =async function (req, res, next) {
 };
 
 
-movie.post('/movie/list',function(req,res){ //sessioncheck goto the function check the session true execute the function
-    Table.find({}, function (err, users) {
-        if (err) return res.status(404).json({ "status": false, 'result': err })
-        else res.json({ status: true, result: users })
-    });
+movie.post('/movie/:action',Sessioncheck,function(req,res){ //sessioncheck goto the function check the session true execute the function
+    movies.perforam(req,res)
 })
 
 module.exports = movie // export modue to access other files inside

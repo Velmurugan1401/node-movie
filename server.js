@@ -20,7 +20,7 @@ mongoose.connect(conf.DB, function (err, success) { //connect mongodb using mong
     }
 })
 
-app.post('/', apiroute) // is use to execute any specific query at intilization process
+app.use('/', apiroute) // is use to execute any specific query at intilization process
 
 app.post('/login', (req, res) => {
     const username = req.body.username; // getting username from the client parsed data
