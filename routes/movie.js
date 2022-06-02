@@ -3,11 +3,35 @@ const router = express.Router()  // it is a framwork help to create the router h
 const movie = router
 const Movie = require('../module/movie')
 const conf = require('../config')  //import config modal to access the datas of config modal
-
+const jwt = require('jsonwebtoken');
 const movies = new Movie()
 
-//perform all the crud option
-movie.post('/movie/:action',function(req,res){ //sessioncheck goto the function check the session true execute the function
+
+var Sessioncheck =async function (req, res, next) {
+    var sessionObj = req.cookies['SESSION_ID']  //get data from sessionobj it present or not
+        if (sessionObj && req.cookies['SESSION_ID']) {
+            jwt.verify(sessionObj, "MV1425", function (err, decoded){ //verify the session token its true than execute once session expeired it execute
+                if (err){
+                    res.status(401).json({
+                        status: false,
+                        message: 'Token expired'
+                    })
+                } else {
+                    next(); //it is also same as return function 
+    
+                }
+            });
+           
+        } else {
+            res.status(401).json({
+                status: false,
+                message: 'Unauthorized Access'
+            })
+        }
+};
+
+
+movie.post('/movie/:action',Sessioncheck,function(req,res){ //sessioncheck goto the function check the session true execute the function
     movies.perforam(req,res)
 })
 
