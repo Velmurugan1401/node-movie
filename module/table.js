@@ -12,7 +12,7 @@ const movieschema = new mongoose.Schema({    //schema object
       max: 255,
     },
     cast: {
-      type: String,
+      type: Array,
       required: false,
       max: 1024,
     },
