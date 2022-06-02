@@ -2,7 +2,7 @@
 const Tables = require('./table');
 const conf = require('../config');
 const mongoose = require('mongoose');
-
+let cookie_parser=require('cookie-parser')
 //this is the object modal 
 var movie = function () {
     this.table = Tables;

@@ -23,6 +23,8 @@
   "homepage": "https://github.com/Velmurugan1401/node-movie#readme",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "cookie-parse": "^0.4.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.1",
     "mongoose": "^6.3.5",
     "nodemon": "^2.0.16"
