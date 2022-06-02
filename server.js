@@ -6,7 +6,8 @@ const conf = require('./config') // import conf js to access datas inside of con
 const apiroute = require('./routes/movie')
 const cookieParser = require('cookie-parser')
 const jwt = require('jsonwebtoken');
-
+const Table = require("./module/table")
+const table = new Table()
 app.use(bodyParser.urlencoded({ extended: false }))
 Port = process.env.PORT || 5000
 app.use(bodyParser.json())
@@ -20,7 +21,7 @@ mongoose.connect(conf.DB, function (err, success) { //connect mongodb using mong
     }
 })
 
-app.use('/', apiroute) // is use to execute any specific query at intilization process
+// app.use('/', apiroute) // is use to execute any specific query at intilization process
 
 app.post('/login', (req, res) => {
     const username = req.body.username; // getting username from the client parsed data
@@ -40,6 +41,13 @@ app.post('/logout', (req, res) => {
     // clearing the stored cookies sessionId
     res.clearCookie('SESSION_ID');
     res.send({status:true,message:"Logout successfully"})
+})
+
+app.post('/movie/list', (req, res) => {
+    Table.find({}, function (err, users) {
+        if (err) return res.status(404).json({ "status": false, 'result': err })
+        else res.json({ status: true, result: users })
+    });
 })
 
 app.listen(Port, function (err) {  //Listen connect host or port , This method is identical to Node’s http.Server.listen()
