@@ -13,7 +13,9 @@ Port = process.env.PORT || 5000
 app.use(bodyParser.json())
 app.use(cookieParser())
 var USERS ={"ADMIN":"ADMIN123"}
-mongoose.connect(conf.DB, function (err, success) { //connect mongodb using mongoose(ODM) ,it connect the db if connection true or false send response
+mongoose.connect(conf.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true},function (err, success) { //connect mongodb using mongoose(ODM) ,it connect the db if connection true or false send response
     if (err) {
         console.error(err)
     } else {
